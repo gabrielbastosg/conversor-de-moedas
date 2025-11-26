@@ -1,0 +1,24 @@
+import requests
+
+#* ---------------------------------------------------------
+#* Função que pega a cotação entre duas moedas usando a API
+#* ---------------------------------------------------------
+def pegar_cotacao_moeda(moeda_origem, moeda_destino):
+
+    #* Monta o link da API usando as duas moedas
+    #* Exemplo: https://economia.awesomeapi.com.br/last/USD-BRL
+    link = f"https://economia.awesomeapi.com.br/last/{moeda_origem}-{moeda_destino}"
+
+    #* Faz uma requisição GET para a API
+    requisicao = requests.get(link)
+
+    #* Converte o resultado para JSON
+    #* A API devolve algo como:
+    #* { "USDBRL": { "bid": "5.12", ... } }
+    #*
+    #* Então acessamos a chave "USDBRL" (ou outra combinação)
+    #* formada pela moeda de origem + moeda de destino
+    cotacao = requisicao.json()[f"{moeda_origem}{moeda_destino}"]["bid"]
+
+    # *Retorna o valor da cotação
+    return cotacao
